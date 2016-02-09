@@ -1,4 +1,22 @@
-<head><version>2.79.14</version></head>
+<head><version>2.79.15</version></head>
+<Axis_Internet_Camera>
+  <auto_back_light>TRUE</auto_back_light>
+  <auto_exposure>FALSE</auto_exposure>
+  <auto_white_balance>TRUE</auto_white_balance>
+  <brightness_value>50</brightness_value>
+  <color_level_value>50</color_level_value>
+  <compression_index>5</compression_index>
+  <contrast_value>50</contrast_value>
+  <exposure_value>50</exposure_value>
+  <ip_address>10.10.14.11</ip_address>
+  <is_active>TRUE</is_active>
+  <mirrot>FALSE</mirrot>
+  <password>FRC</password>
+  <port>80</port>
+  <resolution>320x240</resolution>
+  <sharpness_value>50</sharpness_value>
+  <username>FRC</username>
+</Axis_Internet_Camera>
 <RGB_Filter>
   <channel>4</channel>
   <hue_value>110</hue_value>
@@ -33,10 +51,11 @@
 <NetworkTables>
   <delay>100</delay>
   <filter_type_index>0</filter_type_index>
-  <hostname>10.10.14.2</hostname>
+  <hostname>roboRIO-1014-FRC.local</hostname>
   <port>1735</port>
   <prefix>/SmartDashboard/</prefix>
-  <variables_to_send>COG_AREA
+  <variables_to_send>CLOCK_TIME
+COG_AREA
 COG_BOUNDING_COORDINATES
 COG_BOX_SIZE
 COG_DENSITY

@@ -1,25 +1,27 @@
 package org.usfirst.frc.team1014.robot.commands;
 
-import org.usfirst.frc.team1014.robot.OI;
+import org.usfirst.frc.team1014.robot.controls.ControlsManager;
 import org.usfirst.frc.team1014.robot.utilities.Logger;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class UseShooter extends CommandBase {
+public class UseShooter extends CommandBase
+{
 
 	boolean usingShooter;
 	double maxSpeed;
+	double servoPos;
 
 	public UseShooter()
 	{
-		requires(shooter);
+		requires((Subsystem) shooter);
 	}
 
-	@Override
 	protected void initialize()
 	{
-		// TODO Auto-generated method stub
 		usingShooter = false;
 		maxSpeed = .5;
+		servoPos = .5;
 
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
@@ -28,37 +30,38 @@ public class UseShooter extends CommandBase {
 	@Override
 	public String getConsoleIdentity()
 	{
-		// TODO Auto-generated method stub
 		return "UseShooter";
 	}
 
 	@Override
 	protected void execute()
 	{
-		if(OI.secXboxController.isBButtonPressed() || OI.secXboxController.isXButtonPressed())
+		// TODO Auto-generated method stub
+		if(ControlsManager.secondaryXboxController.isBButtonPressed() || ControlsManager.secondaryXboxController.isXButtonPressed())
 		{
-			if(OI.secXboxController.isXButtonPressed() && maxSpeed > .5)
+			if(ControlsManager.secondaryXboxController.isXButtonPressed() && maxSpeed > .5)
 				maxSpeed -= .1;
-			else if(OI.secXboxController.isBButtonPressed() && maxSpeed < 1.0)
+			else if(ControlsManager.secondaryXboxController.isBButtonPressed() && maxSpeed < 1.0)
 				maxSpeed += .1;
 		}
 
-		
-		
-		if(OI.secXboxController.isLBButtonPressed())
-		{
-			shooter.shoot(.9);
+		if(ControlsManager.secondaryXboxController.isRBButtonPressed())
 			shooter.ringLightOn();
+
+		shooter.shoot(ControlsManager.secondaryXboxController.getLeftStickY());
+
+		if(ControlsManager.secondaryXboxController.isAButtonPressed())
+		{
+			servoPos = .65;
 		}
-		
-		if(OI.secXboxController.isRBButtonPressed())
-			shooter.grab(.7);
+		else
+		{
+			servoPos = .25;
+		}
 
-		if(OI.secXboxController.isYButtonPressed())
-			shooter.rotate(.5);
-		else if(OI.secXboxController.isAButtonPressed())
-			shooter.rotate(-.5);
+		shooter.driveServo(servoPos);
 
+		shooter.rotate(ControlsManager.secondaryXboxController.getRightStickY());
 	}
 
 	public double scaleSpeed(double speed)
@@ -69,14 +72,12 @@ public class UseShooter extends CommandBase {
 	@Override
 	protected boolean isFinished()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void end()
 	{
-		// TODO Auto-generated method stub
 		shooter.shoot(0.0);
 		shooter.rotate(0.0);
 	}
@@ -84,7 +85,6 @@ public class UseShooter extends CommandBase {
 	@Override
 	protected void interrupted()
 	{
-		// TODO Auto-generated method stub
 		Logger.logThis(getConsoleIdentity() + ": I've been interrupted!");
 	}
 
